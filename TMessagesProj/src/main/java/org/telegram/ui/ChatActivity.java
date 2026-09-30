@@ -443,6 +443,7 @@ public class ChatActivity extends BaseFragment implements
     private ActionBarMenuItem headerItem;
     private ActionBarMenu.LazyItem editTextItem;
     protected ActionBarMenuItem searchItem;
+    private android.app.AlertDialog cjkSearchDialog;
     protected ActionBarMenuItem topicCreateItem;
     private ActionBarMenuItem.Item translateItem;
     private ActionBarMenuItem searchIconItem;
@@ -1667,6 +1668,7 @@ public class ChatActivity extends BaseFragment implements
     private final static int view_as_topics = 59;
 
     private final static int search = 40;
+    private final static int cjk_local_search = 91001;
 
     private final static int topic_close = 60;
     private final static int open_forum = 61;
@@ -3352,6 +3354,10 @@ public class ChatActivity extends BaseFragment implements
 
     @Override
     public void onFragmentDestroy() {
+        if (cjkSearchDialog != null) {
+            cjkSearchDialog.dismiss();
+            cjkSearchDialog = null;
+        }
         super.onFragmentDestroy();
         if (messageMetricsView != null) {
             messageMetricsView.finish();
@@ -3708,6 +3714,9 @@ public class ChatActivity extends BaseFragment implements
                             finishFragment();
                         }
                     }
+                } else if (id == cjk_local_search) {
+                    cjkSearchDialog = org.telegram.ui.Components.CjkSearchDialog.show(getParentActivity(), currentAccount, dialog_id,
+                            messageId -> scrollToMessageId(messageId, 0, true, 0, true, 0));
                 } else if (id == view_as_topics) {
                     if (getUserConfig().getClientUserId() == dialog_id) {
                         getMessagesController().setSavedViewAs(true);
@@ -4410,6 +4419,9 @@ public class ChatActivity extends BaseFragment implements
 
             if (searchItem != null) {
                 headerItem.lazilyAddSubItem(search, R.drawable.msg_search, LocaleController.getString(R.string.Search));
+                if (currentEncryptedChat == null && threadMessageId == 0 && chatMode == 0) {
+                    headerItem.lazilyAddSubItem(cjk_local_search, R.drawable.msg_search, "CJK 本機搜尋 / Local search");
+                }
             }
             if (ChatObject.isBoostSupported(currentChat) && (getUserConfig().isPremium() || ChatObject.isBoosted(chatInfo) || ChatObject.hasAdminRights(currentChat))) {
                 RLottieDrawable drawable = new RLottieDrawable(R.raw.boosts, dp(24), dp(24));

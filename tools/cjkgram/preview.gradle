@@ -1,0 +1,17 @@
+// Narrow only this preview build to ARM64; keep upstream release variants intact.
+gradle.beforeProject { project ->
+    project.afterEvaluate {
+        if (project.hasProperty('android')) {
+            project.android.defaultConfig.ndk.abiFilters.clear()
+            project.android.defaultConfig.ndk.abiFilters.add('arm64-v8a')
+            project.android.productFlavors.all { flavor ->
+                flavor.ndk.abiFilters.clear()
+                flavor.ndk.abiFilters.add('arm64-v8a')
+            }
+        }
+        // No borrowed Firebase project in the preview. FCM push requires own setup.
+        project.tasks.matching { it.name.endsWith('GoogleServices') }.configureEach {
+            enabled = false
+        }
+    }
+}
