@@ -36,7 +36,7 @@ jobs:
           "$SDKMANAGER" 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.2.12479018' 'cmake;3.22.1'
       - uses: gradle/actions/setup-gradle@v4
         with:
-          cache-disabled: true
+          cache-disabled: false
       - name: Configure preview credentials
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
