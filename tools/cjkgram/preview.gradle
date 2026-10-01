@@ -5,7 +5,9 @@ gradle.beforeProject { project ->
             // The Play package is the base CJKGram ID. This preview uses the
             // stable preview signing key, so it can become the first internal
             // release after the package is created in Play Console.
-            project.android.buildTypes.debug.applicationIdSuffix = ''
+            if (project.path == ':TMessagesProj_App') {
+                project.android.buildTypes.debug.applicationIdSuffix = ''
+            }
             project.android.defaultConfig.ndk.abiFilters.clear()
             project.android.defaultConfig.ndk.abiFilters.add('arm64-v8a')
             project.android.productFlavors.all { flavor ->
