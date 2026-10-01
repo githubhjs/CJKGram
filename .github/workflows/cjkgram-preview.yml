@@ -49,11 +49,11 @@ jobs:
       - name: Build ARM64 APK
         env:
           CMAKE_BUILD_PARALLEL_LEVEL: '2'
-        run: bash gradlew :TMessagesProj_App:assembleAfatDebug --no-daemon --max-workers=2 -Dorg.gradle.jvmargs='-Xmx4g -XX:MaxMetaspaceSize=1g' -I tools/cjkgram/preview.gradle --stacktrace
+        run: bash gradlew :TMessagesProj_App:assembleAfatRelease --no-daemon --max-workers=2 -Dorg.gradle.jvmargs='-Xmx4g -XX:MaxMetaspaceSize=1g' -I tools/cjkgram/preview.gradle --stacktrace
       - name: Upload preview
         uses: actions/upload-artifact@v4
         with:
           name: CJKGram-arm64-preview
-          path: TMessagesProj_App/build/outputs/apk/afat/debug/*.apk
+          path: TMessagesProj_App/build/outputs/apk/**/*.apk
           if-no-files-found: error
           retention-days: 14
