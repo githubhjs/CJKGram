@@ -1,7 +1,7 @@
 # CJKGram Android preview
 
 Fork of the official DrKLO/Telegram Android client. Upstream baseline: dc780e8.
-Name: CJKGram. Application ID: space.hjs.cjkgram (preview: .beta).
+Name: CJKGram. Application ID: `space.hjs.cjkgram`.
 
 ## First preview
 
@@ -35,7 +35,8 @@ Telegram API client credentials necessarily reside in the resulting client.
 
 Preview disables Firebase configuration processing: FCM push and Google Maps
 are not configured for CJKGram. The existing beta app SnapForward is separate.
-Do not use the upstream dummy keystore for distributed builds.
+  Do not use the upstream dummy keystore for distributed builds. The workflow
+  removes the normal debug `.beta` suffix so the APK is the Play package ID.
 
 Run Unicode matching tests with JDK 8+: `bash tools/cjkgram/test.sh`.
 Full Android compilation uses JDK 17, SDK/build-tools 36, NDK 27.2.12479018,
